@@ -11,4 +11,6 @@ Package with basic analysis functions for genomic data.
 - **Unique.Sym.Estimates**: Function to resolve GeneID duplicates computing the mean and the median.
 - **data4TyersMake**: Function to make a data frame with a structure of data4Tyers from arrays (RMA data).
 - **RNAseq.data4Tyers**: Function to make a data frame with a structure of data4Tyers from RNAseq data.
-- **Complete.Human.GO.nd.KEGG**: Function to complete annotations from RNAseq (featurecounts function) with GO and KEGG databases, for each gene.
+- **Complete.Human.GO.nd.KEGG**: Function to complete annotations from RNAseq (featurecounts function) with GO and KEGG databases, for each gene and human specie.
+- **Complete.Mouse.GO.nd.KEGG**: Function to complete annotations from RNAseq (featurecounts function) with GO and KEGG databases, for each gene and mouse specie.
+
