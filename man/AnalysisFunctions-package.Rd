@@ -13,7 +13,7 @@
 The DESCRIPTION file:
 \packageDESCRIPTION{AnalysisFunctions}
 \packageIndices{AnalysisFunctions}
-~~ An overview of how to use the package, including the most important functions ~~
+Analysis functions for genomic data
 }
 \author{
 \packageAuthor{AnalysisFunctions}
