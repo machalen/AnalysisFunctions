@@ -102,8 +102,7 @@ Complete.Human.GO.nd.KEGG <- function(annot.mat){
   NEW.annot.mat <- cbind(annot.mat.s[,c(1:which(colnames(annot.mat.s) == "Length"))],
                          GENENAME.hs.agg.s$GENENAME,
                          GO.annot.agg.s[,c(2:ncol(GO.annot.agg.s))],
-                         KeggPath.s$PathInfo,
-                         annot.mat.s[,c((which(colnames(annot.mat.s) == "Length")+1):ncol(annot.mat))])
+                         KeggPath.s$PathInfo)
   
   colnames(NEW.annot.mat) <- c(colnames(annot.mat.s[,c(1:which(colnames(annot.mat.s) == "Length"))]),
                                "Description", "GO.BP", "GO.CC", "GO.MF",
