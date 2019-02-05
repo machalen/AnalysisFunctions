@@ -79,7 +79,7 @@ Complete.Human.GO.nd.KEGG <- function(annot.mat){
   PATH.hs <- select(org.Hs.eg.db, keys=annot.mat.s[,"Geneid"], columns=c("PATH"), keytype="SYMBOL")
   dim(PATH.hs)#50146     2
   ls("package:KEGG.db")
-  xx <- as.list(KEGGPATHID2NAME)
+  xx <- AnnotationDbi::as.list(KEGGPATHID2NAME)
   PathInfo <- vector(mode="character", length=nrow(PATH.hs))
   for (i in 1:nrow(PATH.hs)) {
     p.id <- PATH.hs$PATH[i]
