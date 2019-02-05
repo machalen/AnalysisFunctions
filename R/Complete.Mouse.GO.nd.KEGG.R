@@ -79,7 +79,7 @@ Complete.Mouse.GO.nd.KEGG <- function(annot.mat){
   PATH.Mm <- select(org.Mm.eg.db, keys=annot.mat.s[,"Geneid"], columns=c("PATH"), keytype="SYMBOL")
   dim(PATH.Mm)#24551     2
   ls("package:KEGG.db")
-  xx <- as.list(KEGGPATHID2NAME)
+  xx <- AnnotationDbi::as.list(KEGGPATHID2NAME)
   PathInfo <- vector(mode="character", length=nrow(PATH.Mm))
   for (i in 1:nrow(PATH.Mm)) {
     p.id <- PATH.Mm$PATH[i]
