@@ -10,7 +10,7 @@ Generate a data frame with the data4Tyers format to run the macro in excel.
 \usage{
 data4TyersMake(est_noctrls.annot, cond, fit.main, contrast)
 }
-%- maybe also 'usage' for other objects documented here.
+
 \arguments{
   \item{est_noctrls.annot}{
 Matrix with the intensity values of the microarray together with the annotation data made with the function annotatetableC.

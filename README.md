@@ -13,4 +13,9 @@ Package with basic analysis functions for genomic data.
 - **RNAseq.data4Tyers**: Function to make a data frame with a structure of data4Tyers from RNAseq data.
 - **Complete.Human.GO.nd.KEGG**: Function to complete annotations from RNAseq (featurecounts function) with GO and KEGG databases, for each gene and human specie.
 - **Complete.Mouse.GO.nd.KEGG**: Function to complete annotations from RNAseq (featurecounts function) with GO and KEGG databases, for each gene and mouse specie.
+- **GSEA_report_HS**: Function to make the report of GSEA based on human symbols
+- **GSEA_report_MS**: Function to make the report of GSEA based on mouse symbols
+- **GSEA_report_ENSEMBL**: Function to make the report of GSEA based on ENSEMBL IDs
+- **GSEA_genes_Report**: Function to make the report of GSEA sumarized by gene
+
 
