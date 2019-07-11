@@ -18,6 +18,7 @@ Complete.Mouse.GO.nd.KEGG <- function(annot.mat, GeneidCol = "Geneid", IDtype="g
     GENENAME.Mm <- select(org.Mm.eg.db, keys=annot.mat.s[,GeneidCol], columns=c("GENENAME"), keytype="SYMBOL")
   } else if (IDtype=="ENSEMBLid") {
     GENENAME.Mm <- select(org.Mm.eg.db, keys=annot.mat.s[,GeneidCol], columns=c("GENENAME"), keytype="ENSEMBL")
+    colnames(GENENAME.Mm)[colnames(GENENAME.Mm) == "ENSEMBL"] <- "SYMBOL"
   }
   
   dim(GENENAME.Mm)#16472     2
@@ -37,6 +38,7 @@ Complete.Mouse.GO.nd.KEGG <- function(annot.mat, GeneidCol = "Geneid", IDtype="g
     GO.Mm <- select(org.Mm.eg.db, keys=annot.mat.s[,GeneidCol], columns=c("GO"), keytype="SYMBOL")
   } else if (IDtype=="ENSEMBLid") {
     GO.Mm <- select(org.Mm.eg.db, keys=annot.mat.s[,GeneidCol], columns=c("GO"), keytype="ENSEMBL")
+    colnames(GO.Mm)[colnames(GO.Mm) == "ENSEMBL"] <- "SYMBOL"
   }
   
   dim(GO.Mm)#244067      4 // 239172      4
@@ -93,6 +95,7 @@ Complete.Mouse.GO.nd.KEGG <- function(annot.mat, GeneidCol = "Geneid", IDtype="g
     PATH.Mm <- select(org.Mm.eg.db, keys=annot.mat.s[,GeneidCol], columns=c("PATH"), keytype="SYMBOL")
   } else if (IDtype=="ENSEMBLid") {
     PATH.Mm <- select(org.Mm.eg.db, keys=annot.mat.s[,GeneidCol], columns=c("PATH"), keytype="ENSEMBL")
+    colnames(PATH.Mm)[colnames(PATH.Mm) == "ENSEMBL"] <- "SYMBOL"
   }
   
   dim(PATH.Mm)#24551     2
