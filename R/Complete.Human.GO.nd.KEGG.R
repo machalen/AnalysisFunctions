@@ -18,6 +18,7 @@ Complete.Human.GO.nd.KEGG <- function(annot.mat, GeneidCol = "Geneid", IDtype="g
     GENENAME.hs <- select(org.Hs.eg.db, keys=annot.mat.s[,GeneidCol], columns=c("GENENAME"), keytype="SYMBOL")
   } else if (IDtype=="ENSEMBLid") {
     GENENAME.hs <- select(org.Hs.eg.db, keys=annot.mat.s[,GeneidCol], columns=c("GENENAME"), keytype="ENSEMBL")
+    colnames(GENENAME.hs)[colnames(GENENAME.hs) == "ENSEMBL"] <- "SYMBOL"
   }
   
   
@@ -38,6 +39,7 @@ Complete.Human.GO.nd.KEGG <- function(annot.mat, GeneidCol = "Geneid", IDtype="g
     GO.hs <- select(org.Hs.eg.db, keys=annot.mat.s[,GeneidCol], columns=c("GO"), keytype="SYMBOL")#warning pero es ok
   } else if (IDtype=="ENSEMBLid") {
     GO.hs <- select(org.Hs.eg.db, keys=annot.mat.s[,GeneidCol], columns=c("GO"), keytype="ENSEMBL")
+    colnames(GO.hs)[colnames(GO.hs) == "ENSEMBL"] <- "SYMBOL"
   }
   
   dim(GO.hs)#268499      4
@@ -94,6 +96,7 @@ Complete.Human.GO.nd.KEGG <- function(annot.mat, GeneidCol = "Geneid", IDtype="g
     PATH.hs <- select(org.Hs.eg.db, keys=annot.mat.s[,GeneidCol], columns=c("PATH"), keytype="SYMBOL")
   } else if (IDtype=="ENSEMBLid") {
     PATH.hs <- select(org.Hs.eg.db, keys=annot.mat.s[,GeneidCol], columns=c("PATH"), keytype="ENSEMBL")
+    colnames(PATH.hs)[colnames(PATH.hs) == "ENSEMBL"] <- "SYMBOL"
   }                            
   
   dim(PATH.hs)#50146     2
