@@ -1,7 +1,7 @@
-Complete.Mouse.GO.nd.KEGG <- function(annot.mat){
+Complete.Mouse.GO.nd.KEGG <- function(annot.mat, GeneidCol = "Geneid"){
   #annot.mat: matrix with a column "Geneid" corresponding to gene symbols mouse
   require(gtools)
-  annot.mat.s <- annot.mat[order(annot.mat[,"Geneid"]),]
+  annot.mat.s <- annot.mat[order(annot.mat[,GeneidCol]),]
   
   ###############################################################
   #Agafem la description de org.Mm.eg.db
@@ -13,7 +13,7 @@ Complete.Mouse.GO.nd.KEGG <- function(annot.mat){
   # [22] "SYMBOL"       "UNIGENE"      "UNIPROT"     
   keytypes(org.Mm.eg.db)
   metadata(org.Mm.eg.db)
-  GENENAME.Mm <- select(org.Mm.eg.db, keys=annot.mat.s[,"Geneid"], columns=c("GENENAME"), keytype="SYMBOL")
+  GENENAME.Mm <- select(org.Mm.eg.db, keys=annot.mat.s[,GeneidCol], columns=c("GENENAME"), keytype="SYMBOL")
   dim(GENENAME.Mm)#16472     2
   GENENAME.Mm.agg <-aggregate(GENENAME.Mm, by=list(GENENAME.Mm$SYMBOL), FUN=function(x) paste(x, collapse="//"))
   GENENAME.Mm.agg <- GENENAME.Mm.agg[, c("Group.1", "GENENAME")]
@@ -26,7 +26,7 @@ Complete.Mouse.GO.nd.KEGG <- function(annot.mat){
   #[1] "DEFINITION" "GOID"       "ONTOLOGY"   "TERM"      
   keytypes(GO.db)
   metadata(GO.db)
-  GO.Mm <- select(org.Mm.eg.db, keys=annot.mat.s[,"Geneid"], columns=c("GO"), keytype="SYMBOL")
+  GO.Mm <- select(org.Mm.eg.db, keys=annot.mat.s[,GeneidCol], columns=c("GO"), keytype="SYMBOL")
   dim(GO.Mm)#244067      4 // 239172      4
   GO.Term <- select(GO.db, keys=GO.Mm$GO, columns=c("TERM"), keytype="GOID")
   all.equal(GO.Mm$GO, GO.Term$GOID) #comprovem que l'ordre ?s el mateix abans de fer el cbind
@@ -76,7 +76,7 @@ Complete.Mouse.GO.nd.KEGG <- function(annot.mat){
   ##################################################################
   #Agafem el KEGG de KEGG.db
   library(KEGG.db)
-  PATH.Mm <- select(org.Mm.eg.db, keys=annot.mat.s[,"Geneid"], columns=c("PATH"), keytype="SYMBOL")
+  PATH.Mm <- select(org.Mm.eg.db, keys=annot.mat.s[,GeneidCol], columns=c("PATH"), keytype="SYMBOL")
   dim(PATH.Mm)#24551     2
   ls("package:KEGG.db")
   xx <- AnnotationDbi::as.list(KEGGPATHID2NAME)
@@ -97,7 +97,7 @@ Complete.Mouse.GO.nd.KEGG <- function(annot.mat){
   
   all.equal(KeggPath.s$Group.1, as.character(GO.annot.agg.s$SYMBOL))#TRUE
   all.equal(KeggPath.s$Group.1, GENENAME.Mm.agg.s$Group.1)#TRUE
-  all.equal(KeggPath.s$Group.1, annot.mat.s[,"Geneid"])#TRUE
+  all.equal(KeggPath.s$Group.1, annot.mat.s[,GeneidCol])#TRUE
   
   NEW.annot.mat <- cbind(annot.mat.s[,c(1:which(colnames(annot.mat.s) == "Length"))],
                          GENENAME.Mm.agg.s$GENENAME,
