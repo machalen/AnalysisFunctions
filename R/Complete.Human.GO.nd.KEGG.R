@@ -1,4 +1,4 @@
-Complete.Human.GO.nd.KEGG <- function(annot.mat, GeneidCol = "Geneid"){
+Complete.Human.GO.nd.KEGG <- function(annot.mat, GeneidCol = "Geneid", IDtype="geneSymb" ){
   #annot.mat: matrix with a column "Geneid" corresponding to gene symbols human
   require(gtools)
   annot.mat.s <- annot.mat[order(annot.mat[,GeneidCol]),]
@@ -13,7 +13,14 @@ Complete.Human.GO.nd.KEGG <- function(annot.mat, GeneidCol = "Geneid"){
   # [22] "SYMBOL"       "UNIGENE"      "UNIPROT"     
   keytypes(org.Hs.eg.db)
   metadata(org.Hs.eg.db)
-  GENENAME.hs <- select(org.Hs.eg.db, keys=annot.mat.s[,GeneidCol], columns=c("GENENAME"), keytype="SYMBOL")
+  
+  if(IDtype=="geneSymb") {
+    GENENAME.hs <- select(org.Hs.eg.db, keys=annot.mat.s[,GeneidCol], columns=c("GENENAME"), keytype="SYMBOL")
+  } else if (IDtype=="ENSEMBLid") {
+    GENENAME.hs <- select(org.Hs.eg.db, keys=annot.mat.s[,GeneidCol], columns=c("GENENAME"), keytype="ENSEMBL")
+  }
+  
+  
   dim(GENENAME.hs)#40053     2 (surt un warning, pero es ok)
   GENENAME.hs.agg <-aggregate(GENENAME.hs, by=list(GENENAME.hs$SYMBOL), FUN=function(x) paste(x, collapse="//"))
   GENENAME.hs.agg <- GENENAME.hs.agg[, c("Group.1", "GENENAME")]
@@ -26,7 +33,13 @@ Complete.Human.GO.nd.KEGG <- function(annot.mat, GeneidCol = "Geneid"){
   #[1] "DEFINITION" "GOID"       "ONTOLOGY"   "TERM"      
   keytypes(GO.db)
   metadata(GO.db)
-  GO.hs <- select(org.Hs.eg.db, keys=annot.mat.s[,GeneidCol], columns=c("GO"), keytype="SYMBOL")#warning pero es ok
+  
+  if(IDtype=="geneSymb") {
+    GO.hs <- select(org.Hs.eg.db, keys=annot.mat.s[,GeneidCol], columns=c("GO"), keytype="SYMBOL")#warning pero es ok
+  } else if (IDtype=="ENSEMBLid") {
+    GO.hs <- select(org.Hs.eg.db, keys=annot.mat.s[,GeneidCol], columns=c("GO"), keytype="ENSEMBL")
+  }
+  
   dim(GO.hs)#268499      4
   GO.Term <- select(GO.db, keys=GO.hs$GO, columns=c("TERM"), keytype="GOID")#warning pero es ok
   all.equal(GO.hs$GO, GO.Term$GOID) #TRUE
@@ -76,7 +89,13 @@ Complete.Human.GO.nd.KEGG <- function(annot.mat, GeneidCol = "Geneid"){
   ##################################################################
   #Agafem el KEGG de KEGG.db
   require(KEGG.db)
-  PATH.hs <- select(org.Hs.eg.db, keys=annot.mat.s[,GeneidCol], columns=c("PATH"), keytype="SYMBOL")
+  
+  if(IDtype=="geneSymb") {
+    PATH.hs <- select(org.Hs.eg.db, keys=annot.mat.s[,GeneidCol], columns=c("PATH"), keytype="SYMBOL")
+  } else if (IDtype=="ENSEMBLid") {
+    PATH.hs <- select(org.Hs.eg.db, keys=annot.mat.s[,GeneidCol], columns=c("PATH"), keytype="ENSEMBL")
+  }                            
+  
   dim(PATH.hs)#50146     2
   ls("package:KEGG.db")
   xx <- AnnotationDbi::as.list(KEGGPATHID2NAME)
