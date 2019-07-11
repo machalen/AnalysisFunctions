@@ -1,4 +1,4 @@
-Complete.Mouse.GO.nd.KEGG <- function(annot.mat, GeneidCol = "Geneid"){
+Complete.Mouse.GO.nd.KEGG <- function(annot.mat, GeneidCol = "Geneid", IDtype="geneSymb"){
   #annot.mat: matrix with a column "Geneid" corresponding to gene symbols mouse
   require(gtools)
   annot.mat.s <- annot.mat[order(annot.mat[,GeneidCol]),]
@@ -13,7 +13,13 @@ Complete.Mouse.GO.nd.KEGG <- function(annot.mat, GeneidCol = "Geneid"){
   # [22] "SYMBOL"       "UNIGENE"      "UNIPROT"     
   keytypes(org.Mm.eg.db)
   metadata(org.Mm.eg.db)
-  GENENAME.Mm <- select(org.Mm.eg.db, keys=annot.mat.s[,GeneidCol], columns=c("GENENAME"), keytype="SYMBOL")
+  
+  if(IDtype=="geneSymb") {
+    GENENAME.Mm <- select(org.Mm.eg.db, keys=annot.mat.s[,GeneidCol], columns=c("GENENAME"), keytype="SYMBOL")
+  } else if (IDtype=="ENSEMBLid") {
+    GENENAME.Mm <- select(org.Mm.eg.db, keys=annot.mat.s[,GeneidCol], columns=c("GENENAME"), keytype="ENSEMBL")
+  }
+  
   dim(GENENAME.Mm)#16472     2
   GENENAME.Mm.agg <-aggregate(GENENAME.Mm, by=list(GENENAME.Mm$SYMBOL), FUN=function(x) paste(x, collapse="//"))
   GENENAME.Mm.agg <- GENENAME.Mm.agg[, c("Group.1", "GENENAME")]
@@ -26,7 +32,13 @@ Complete.Mouse.GO.nd.KEGG <- function(annot.mat, GeneidCol = "Geneid"){
   #[1] "DEFINITION" "GOID"       "ONTOLOGY"   "TERM"      
   keytypes(GO.db)
   metadata(GO.db)
-  GO.Mm <- select(org.Mm.eg.db, keys=annot.mat.s[,GeneidCol], columns=c("GO"), keytype="SYMBOL")
+  
+  if(IDtype=="geneSymb") {
+    GO.Mm <- select(org.Mm.eg.db, keys=annot.mat.s[,GeneidCol], columns=c("GO"), keytype="SYMBOL")
+  } else if (IDtype=="ENSEMBLid") {
+    GO.Mm <- select(org.Mm.eg.db, keys=annot.mat.s[,GeneidCol], columns=c("GO"), keytype="ENSEMBL")
+  }
+  
   dim(GO.Mm)#244067      4 // 239172      4
   GO.Term <- select(GO.db, keys=GO.Mm$GO, columns=c("TERM"), keytype="GOID")
   all.equal(GO.Mm$GO, GO.Term$GOID) #comprovem que l'ordre ?s el mateix abans de fer el cbind
@@ -76,7 +88,13 @@ Complete.Mouse.GO.nd.KEGG <- function(annot.mat, GeneidCol = "Geneid"){
   ##################################################################
   #Agafem el KEGG de KEGG.db
   library(KEGG.db)
-  PATH.Mm <- select(org.Mm.eg.db, keys=annot.mat.s[,GeneidCol], columns=c("PATH"), keytype="SYMBOL")
+  
+  if(IDtype=="geneSymb") {
+    PATH.Mm <- select(org.Mm.eg.db, keys=annot.mat.s[,GeneidCol], columns=c("PATH"), keytype="SYMBOL")
+  } else if (IDtype=="ENSEMBLid") {
+    PATH.Mm <- select(org.Mm.eg.db, keys=annot.mat.s[,GeneidCol], columns=c("PATH"), keytype="ENSEMBL")
+  }
+  
   dim(PATH.Mm)#24551     2
   ls("package:KEGG.db")
   xx <- AnnotationDbi::as.list(KEGGPATHID2NAME)
