@@ -1,7 +1,7 @@
-Complete.Human.GO.nd.KEGG <- function(annot.mat){
+Complete.Human.GO.nd.KEGG <- function(annot.mat, GeneidCol = "Geneid"){
   #annot.mat: matrix with a column "Geneid" corresponding to gene symbols human
   require(gtools)
-  annot.mat.s <- annot.mat[order(annot.mat[,"Geneid"]),]
+  annot.mat.s <- annot.mat[order(annot.mat[,GeneidCol]),]
   
   ###############################################################
   #Agafem la description de org.Mm.eg.db
@@ -13,7 +13,7 @@ Complete.Human.GO.nd.KEGG <- function(annot.mat){
   # [22] "SYMBOL"       "UNIGENE"      "UNIPROT"     
   keytypes(org.Hs.eg.db)
   metadata(org.Hs.eg.db)
-  GENENAME.hs <- select(org.Hs.eg.db, keys=annot.mat.s[,"Geneid"], columns=c("GENENAME"), keytype="SYMBOL")
+  GENENAME.hs <- select(org.Hs.eg.db, keys=annot.mat.s[,GeneidCol], columns=c("GENENAME"), keytype="SYMBOL")
   dim(GENENAME.hs)#40053     2 (surt un warning, pero es ok)
   GENENAME.hs.agg <-aggregate(GENENAME.hs, by=list(GENENAME.hs$SYMBOL), FUN=function(x) paste(x, collapse="//"))
   GENENAME.hs.agg <- GENENAME.hs.agg[, c("Group.1", "GENENAME")]
@@ -26,7 +26,7 @@ Complete.Human.GO.nd.KEGG <- function(annot.mat){
   #[1] "DEFINITION" "GOID"       "ONTOLOGY"   "TERM"      
   keytypes(GO.db)
   metadata(GO.db)
-  GO.hs <- select(org.Hs.eg.db, keys=annot.mat.s[,"Geneid"], columns=c("GO"), keytype="SYMBOL")#warning pero es ok
+  GO.hs <- select(org.Hs.eg.db, keys=annot.mat.s[,GeneidCol], columns=c("GO"), keytype="SYMBOL")#warning pero es ok
   dim(GO.hs)#268499      4
   GO.Term <- select(GO.db, keys=GO.hs$GO, columns=c("TERM"), keytype="GOID")#warning pero es ok
   all.equal(GO.hs$GO, GO.Term$GOID) #TRUE
@@ -76,7 +76,7 @@ Complete.Human.GO.nd.KEGG <- function(annot.mat){
   ##################################################################
   #Agafem el KEGG de KEGG.db
   require(KEGG.db)
-  PATH.hs <- select(org.Hs.eg.db, keys=annot.mat.s[,"Geneid"], columns=c("PATH"), keytype="SYMBOL")
+  PATH.hs <- select(org.Hs.eg.db, keys=annot.mat.s[,GeneidCol], columns=c("PATH"), keytype="SYMBOL")
   dim(PATH.hs)#50146     2
   ls("package:KEGG.db")
   xx <- AnnotationDbi::as.list(KEGGPATHID2NAME)
@@ -97,7 +97,7 @@ Complete.Human.GO.nd.KEGG <- function(annot.mat){
   
   all.equal(KeggPath.s$Group.1, as.character(GO.annot.agg.s$SYMBOL))#TRUE
   all.equal(KeggPath.s$Group.1, GENENAME.hs.agg.s$Group.1)#TRUE
-  all.equal(KeggPath.s$Group.1, annot.mat.s[,"Geneid"])#TRUE
+  all.equal(KeggPath.s$Group.1, annot.mat.s[,GeneidCol])#TRUE
   
   NEW.annot.mat <- cbind(annot.mat.s[,c(1:which(colnames(annot.mat.s) == "Length"))],
                          GENENAME.hs.agg.s$GENENAME,
