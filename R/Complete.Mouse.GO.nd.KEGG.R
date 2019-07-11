@@ -99,12 +99,12 @@ Complete.Mouse.GO.nd.KEGG <- function(annot.mat, GeneidCol = "Geneid"){
   all.equal(KeggPath.s$Group.1, GENENAME.Mm.agg.s$Group.1)#TRUE
   all.equal(KeggPath.s$Group.1, annot.mat.s[,GeneidCol])#TRUE
   
-  NEW.annot.mat <- cbind(annot.mat.s[,c(1:which(colnames(annot.mat.s) == "Length"))],
+  NEW.annot.mat <- cbind(annot.mat.s[,c(1:ncol(annot.mat.s)],
                          GENENAME.Mm.agg.s$GENENAME,
                          GO.annot.agg.s[,c(2:ncol(GO.annot.agg.s))],
                          KeggPath.s$PathInfo)
   
-  colnames(NEW.annot.mat) <- c(colnames(annot.mat.s[,c(1:which(colnames(annot.mat.s) == "Length"))]),
+  colnames(NEW.annot.mat) <- c(colnames(annot.mat.s[,c(1:ncol(annot.mat.s)]),
                                "Description", "GO.BP", "GO.CC", "GO.MF",
                                "Path.Kegg")
   return(NEW.annot.mat)
