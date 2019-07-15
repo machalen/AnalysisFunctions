@@ -40,7 +40,5 @@ for (i in 1:length(inDirFiles)) {
   name_summary <- gsub(".csv", "", inDirFiles[i])
   GSEA_genes_Report(GSEA_summary=GSEA_summary, name.f = name_summary, symbol.col="SYMBOL", GSEA_Dir)
 }
+}
 
-  
-}
-}
