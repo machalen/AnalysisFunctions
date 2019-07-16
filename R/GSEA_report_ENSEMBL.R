@@ -11,6 +11,7 @@ GSEA_report_ENSEMBL <- function(GSEA_result, GeneSetAnnot=F ,GeneSets_annot=NULL
   #GeneStats_annot: Table with the statistics of genes and rownames == Genesymbol
   #StatsCols: columns of GeneStats_annot to be included
   require(org.Mm.eg.db)
+  require(data.table)
   GSEA_res_files <- list.files(GSEA_result, full.names = T)
   #################################################################################################
   #Resultats Positius del GSEA
