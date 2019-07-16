@@ -6,7 +6,7 @@
 ############################################################################################################################
 ##################################REPORT SUMMARY FOR EACH GENE##############################################################
 
-GSEA_genes_Report <- function(GSEA_summary, name.f, symbol.col="SYMBOL") {
+GSEA_genes_Report <- function(GSEA_summary, name.f, symbol.col="SYMBOL", GSEA_Dir=GSEADir) {
   #GSEA_summary: csv amb el summary dels resultats de GSEA generat amb la funció GSEA_report_Make
   #name.f: name of the output file
   #symbol.col: Columna que conté els gene symbols
@@ -30,6 +30,6 @@ GSEA_genes_Report <- function(GSEA_summary, name.f, symbol.col="SYMBOL") {
   gene.df <- data.frame(symb, description, nTimes, GeneSets, pval, padj, log2FC)
   #gene.df <- gene.df[order(gene.df$pval),]
   gene.df <- gene.df[order(gene.df$nTimes, decreasing = T),]
-  write.csv2(gene.df, file=file.path(GSEADir, paste(name.f, "_GenesEnriched",".csv", sep="")), row.names=F)
+  write.csv2(gene.df, file=file.path(GSEA_Dir, paste(name.f, "_GenesEnriched",".csv", sep="")), row.names=F)
   
 }
