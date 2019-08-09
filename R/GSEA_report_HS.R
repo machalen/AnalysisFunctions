@@ -44,9 +44,13 @@ GSEA_report_HS <- function(GSEA_result, GeneSetAnnot=F ,GeneSets_annot=NULL, Tab
     GENENAME.hs$Gene_Rank <- gs.genes.tab[GENENAME.hs$SYMBOL,"RANK IN GENE LIST"]
     
     #Afegim els estadistics dels gens TRUE
-    stat.tab <- GeneStats_annot[GENENAME.hs$SYMBOL, StatsCols]
-    stat.tab$SYMBOL <- rownames(stat.tab)
-    GENETAB <- merge(GENENAME.hs, stat.tab, all.x = T, all.y=F)
+    if (is.null(StatsCols)) {
+      GENETAB <- GENENAME.hs
+    } else {
+      stat.tab <- GeneStats_annot[GENENAME.hs$SYMBOL, StatsCols]
+      stat.tab$SYMBOL <- rownames(stat.tab)
+      GENETAB <- merge(GENENAME.hs, stat.tab, all.x = T, all.y=F)
+    }
     
     #Afefim els estadistics del gene set
     GENETAB$GENE_SET <- rep(gsub(".xls","",xls.pos.names[p]),nrow(GENETAB))
@@ -102,9 +106,13 @@ GSEA_report_HS <- function(GSEA_result, GeneSetAnnot=F ,GeneSets_annot=NULL, Tab
     GENENAME.hs$Gene_Rank <- gs.genes.tab[GENENAME.hs$SYMBOL,"RANK IN GENE LIST"]
     
     #Afegim els estadistics dels gens TRUE
-    stat.tab <- GeneStats_annot[GENENAME.hs$SYMBOL, StatsCols]
-    stat.tab$SYMBOL <- rownames(stat.tab)
-    GENETAB <- merge(GENENAME.hs, stat.tab, all.x = T, all.y=F)
+    if (is.null(StatsCols)) {
+      GENETAB <- GENENAME.hs
+    } else {
+      stat.tab <- GeneStats_annot[GENENAME.hs$SYMBOL, StatsCols]
+      stat.tab$SYMBOL <- rownames(stat.tab)
+      GENETAB <- merge(GENENAME.hs, stat.tab, all.x = T, all.y=F)
+    }
     
     #Afefim els estadistics del gene set
     GENETAB$GENE_SET <- rep(gsub(".xls","",xls.neg.names[p]),nrow(GENETAB))
