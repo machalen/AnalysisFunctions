@@ -13,6 +13,7 @@ GSEA_report_MS <- function(GSEA_result, GeneSetAnnot=F ,GeneSets_annot=NULL, Tab
   require(org.Mm.eg.db)
   require(data.table)
   GSEA_res_files <- list.files(GSEA_result, full.names = T)
+  f.nm <- basename(GSEA_result)
   #################################################################################################
   #Resultats Positius del GSEA
   #Definim la matriu per guardar el summary dels resultats del GSEA
@@ -69,7 +70,7 @@ GSEA_report_MS <- function(GSEA_result, GeneSetAnnot=F ,GeneSets_annot=NULL, Tab
   }
   #Guardem els resultats
   #write.csv2(pos_gs_summ, file=file.path(GSEA_result, "Summary_PositiveEnriched_GS.csv"), row.names=F)
-  write.csv2(pos_gs_summ, file=file.path(GSEADir, paste(inDirFiles[i], "_PositiveEnriched",".csv", sep="")), row.names=F)
+  write.csv2(pos_gs_summ, file=file.path(GSEADir, paste(f.nm, "_PositiveEnriched",".csv", sep="")), row.names=F)
   
   #################################################################################################
   #Resultats Negatius del GSEA
@@ -127,7 +128,7 @@ GSEA_report_MS <- function(GSEA_result, GeneSetAnnot=F ,GeneSets_annot=NULL, Tab
   }
   #Guardem els resultats
   #write.csv2(neg_gs_summ, file=file.path(GSEA_result, "Summary_NegativeEnriched_GS.csv"), row.names=F)
-  write.csv2(neg_gs_summ, file=file.path(GSEADir, paste(inDirFiles[i], "_NegativeEnriched",".csv", sep="")), row.names=F)
+  write.csv2(neg_gs_summ, file=file.path(GSEADir, paste(f.nm, "_NegativeEnriched",".csv", sep="")), row.names=F)
   
   
 }
