@@ -23,7 +23,7 @@ GSEA_report_HS <- function(GSEA_result, GeneSetAnnot=F ,GeneSets_annot=NULL, Tab
   pos_gs_summ <- data.frame()
   #Llegim el report de Genesets positius
   File_pos_gs <- grep("gsea_report_for_na_pos.*.xls$", GSEA_res_files, perl=T ,value=T)
-  pos_gs_tab <- as.data.frame(fread(File_pos_gs))
+  pos_gs_tab <- as.data.frame(fread(File_pos_gs, dec=".", stringsAsFactors = F))
   #Ordenem els GS per p.Val ajustat amb FDR (es pot canviar el camp que utilitzem per ordenar els GS si es vol!!)
   pos_gs_tab.o <- pos_gs_tab[order(pos_gs_tab$`FDR q-val`),]
   #Obtenim el nom dels Gene sets
@@ -85,7 +85,7 @@ GSEA_report_HS <- function(GSEA_result, GeneSetAnnot=F ,GeneSets_annot=NULL, Tab
   neg_gs_summ <- data.frame()
   #Llegim el report de Genesets negatius
   File_neg_gs <- grep("gsea_report_for_na_neg.*.xls$", GSEA_res_files, perl=T ,value=T)
-  neg_gs_tab <- as.data.frame(fread(File_neg_gs))
+  neg_gs_tab <- as.data.frame(fread(File_neg_gs, dec=".", stringsAsFactors = F))
   #Ordenem els GS per p.Val ajustat amb FDR (es pot canviar el camp que utilitzem per ordenar els GS si es vol!!)
   neg_gs_tab.o <- neg_gs_tab[order(neg_gs_tab$`FDR q-val`),]
   #Obtenim el nom dels Gene sets
